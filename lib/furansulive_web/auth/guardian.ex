@@ -28,6 +28,7 @@ defmodule FuransuliveWeb.Auth.Guardian do
   end
 
   defp validate_password(password, user) do
+    # Pbkdf2 only used as dev hashing strategy
     case Pbkdf2.check_pass(user, password) do
       {:ok, _} -> true
       {:error, _} -> false
