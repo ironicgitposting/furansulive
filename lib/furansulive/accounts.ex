@@ -111,4 +111,10 @@ defmodule Furansulive.Accounts do
         {:ok, user}
     end
   end
+
+  def is_admin(email) do
+    case get_by_email(email) do
+      {:ok, user} -> IO.inspect(user)
+    end
+  end
 end

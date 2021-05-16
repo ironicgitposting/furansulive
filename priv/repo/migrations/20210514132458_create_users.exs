@@ -5,6 +5,7 @@ defmodule Furansulive.Repo.Migrations.CreateUsers do
     create table(:users) do
       add :email, :string
       add :encrypted_password, :string
+      add :admin, :boolean
 
       timestamps()
     end

@@ -5,19 +5,6 @@ defmodule FuransuliveWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", FuransuliveWeb do
-    # Open Routes
-    pipe_through :api
-    post "/users/signup", UserController, :create
-    post "/users/signin", UserController, :signin
-  end
-
-  scope "/api", FuransuliveWeb do
-    # Protected Routes
-    pipe_through [:api, :auth]
-    resources "/words", WordController, except: [:new, :edit]
-  end
-
   pipeline :browser do
     plug(:accepts, ["html"])
   end
@@ -26,9 +13,31 @@ defmodule FuransuliveWeb.Router do
     plug FuransuliveWeb.Auth.Pipeline
   end
 
+  scope "/api", FuransuliveWeb do
+    # Open Endpoints
+    pipe_through :api
+    post "/users/signup", UserController, :create
+    post "/users/signin", UserController, :signin
+  end
+
+  scope "/api", FuransuliveWeb do
+    # Auth Protected Endpoints
+    # Mostly read only resources
+    pipe_through [:api, :auth]
+    resources "/words", WordController, only: [:index, :show]
+  end
+
+  scope "/admin/api", FuransuliveWeb do
+    # Administration Dashboard Endpoints
+    pipe_through [:api, :auth, FuransuliveWeb.Auth.Admin]
+    resources "/words", WordController
+  end
+
+  # Fallback from browser
   scope "/", FuransuliveWeb do
     pipe_through :browser
     get "/", DefaultController, :index
+    get "/*path", DefaultController, :redirect_to_root
   end
 
   # Enables LiveDashboard only for development
@@ -38,12 +47,10 @@ defmodule FuransuliveWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: FuransuliveWeb.Telemetry
-    end
-  end
+  # if Mix.env() in [:dev, :test] do
+  #  scope "/" do
+  #    pipe_through [:fetch_session, :protect_from_forgery]
+  #    live_dashboard "/dashboard", metrics: FuransuliveWeb.Telemetry
+  #  end
+  # end
 end
