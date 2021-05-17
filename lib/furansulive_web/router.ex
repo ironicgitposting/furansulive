@@ -2,6 +2,7 @@ defmodule FuransuliveWeb.Router do
   use FuransuliveWeb, :router
 
   pipeline :api do
+    plug CORSPlug
     plug :accepts, ["json"]
   end
 

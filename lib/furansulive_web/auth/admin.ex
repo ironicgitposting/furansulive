@@ -5,7 +5,6 @@ defmodule FuransuliveWeb.Auth.Admin do
 
   def call(conn, _opts) do
     user = Guardian.Plug.current_resource(conn)
-    IO.inspect(user)
 
     case user.admin do
       true ->
