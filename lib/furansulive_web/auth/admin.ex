@@ -11,7 +11,7 @@ defmodule FuransuliveWeb.Auth.Admin do
         conn
 
       _ ->
-        body = Poison.encode!(%{error: "not admin"})
+        body = Poison.encode!(%{error: "Not Admin"})
 
         conn
         |> put_resp_content_type("application/json")

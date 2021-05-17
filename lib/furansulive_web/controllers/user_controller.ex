@@ -27,4 +27,9 @@ defmodule FuransuliveWeb.UserController do
       |> render("user.json", %{user: user, token: token})
     end
   end
+
+  def index(conn, _params) do
+    users = Accounts.list_users()
+    render(conn, "public_index.json", users: users)
+  end
 end

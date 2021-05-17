@@ -14,6 +14,10 @@ defmodule FuransuliveWeb.Router do
     plug FuransuliveWeb.Auth.Pipeline
   end
 
+  pipeline :admin do
+    FuransuliveWeb.Auth.Admin
+  end
+
   scope "/api", FuransuliveWeb do
     # Open Endpoints
     pipe_through :api
@@ -30,8 +34,9 @@ defmodule FuransuliveWeb.Router do
 
   scope "/admin/api", FuransuliveWeb do
     # Administration Dashboard Endpoints
-    pipe_through [:api, :auth, FuransuliveWeb.Auth.Admin]
+    pipe_through [:api, :auth, :admin]
     resources "/words", WordController
+    resources "/users", UserController
   end
 
   # Fallback from browser

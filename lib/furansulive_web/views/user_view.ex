@@ -16,4 +16,14 @@ defmodule FuransuliveWeb.UserView do
       token: token
     }
   end
+
+  def render("public_index.json", %{users: users}) do
+    %{data: render_many(users, UserView, "public_user.json")}
+  end
+
+  def render("public_user.json", %{user: user}) do
+    %{
+      email: user.email
+    }
+  end
 end
