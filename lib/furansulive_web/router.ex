@@ -30,6 +30,8 @@ defmodule FuransuliveWeb.Router do
     # Mostly read only resources
     pipe_through [:api, :auth]
     resources "/words", WordController, only: [:index, :show]
+    # put "/flashcards/answer/", FlashCardController, :answer
+    resources "/flashcards", FlashCardController, only: [:index, :show]
   end
 
   scope "/admin/api", FuransuliveWeb do
@@ -37,6 +39,7 @@ defmodule FuransuliveWeb.Router do
     pipe_through [:api, :auth, :admin]
     resources "/words", WordController
     resources "/users", UserController
+    resources "/flashcards", FlashCardController
   end
 
   # Fallback from browser

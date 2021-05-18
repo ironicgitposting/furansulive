@@ -1,12 +1,13 @@
 defmodule Furansulive.Directory.Word do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Furansulive.SpacedRepetition.FlashCard
 
   schema "words" do
     field :description, :string
     field :name, :string
     field :tag, :string
-
+    has_many :flash_card, FlashCard
     timestamps()
   end
 

@@ -14,16 +14,24 @@ defmodule FuransuliveWeb.Auth.Guardian do
     {:ok, resource}
   end
 
-  def authenticate_phone(email, password) do
+  def authenticate(email, password) do
     # HTTP Bearer authorization.
-    with {:ok, user} <- Accounts.get_by_email(email) do
-      case validate_password(password, user) do
-        true ->
-          create_phone_token(user)
+    case Accounts.get_by_email(email) do
+      {:ok, user} ->
+        case validate_password(password, user) do
+          true ->
+            create_token(user)
 
-        false ->
-          {:error, :unauthorized}
-      end
+          false ->
+            {:error, :unauthorized}
+        end
+
+      _ ->
+        # no_user_verify() function to simulate a password check
+        # with variable timing. This hardens our authentication
+        # layer against timing attacks
+        Pbkdf2.no_user_verify()
+        {:error, :not_found}
     end
   end
 
@@ -37,12 +45,6 @@ defmodule FuransuliveWeb.Auth.Guardian do
 
   defp create_token(user) do
     {:ok, token, _claims} = encode_and_sign(user)
-    {:ok, user, token}
-  end
-
-  defp create_phone_token(user) do
-    # Long token for React Native App
-    {:ok, token, _claims} = encode_and_sign(user, %{}, ttl: {4, :weeks})
     {:ok, user, token}
   end
 end
