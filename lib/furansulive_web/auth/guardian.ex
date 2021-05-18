@@ -27,19 +27,6 @@ defmodule FuransuliveWeb.Auth.Guardian do
     end
   end
 
-  def authenticate_phone(email, password) do
-    # HTTP Bearer authorization.
-    with {:ok, user} <- Accounts.get_by_email(email) do
-      case validate_password(password, user) do
-        true ->
-          create_phone_token(user)
-
-        false ->
-          {:error, :unauthorized}
-      end
-    end
-  end
-
   defp validate_password(password, user) do
     # Pbkdf2 only used as dev hashing strategy
     case Pbkdf2.check_pass(user, password) do
@@ -50,12 +37,6 @@ defmodule FuransuliveWeb.Auth.Guardian do
 
   defp create_token(user) do
     {:ok, token, _claims} = encode_and_sign(user)
-    {:ok, user, token}
-  end
-
-  defp create_phone_token(user) do
-    # Long token for React Native App
-    {:ok, token, _claims} = encode_and_sign(user, %{}, ttl: {4, :weeks})
     {:ok, user, token}
   end
 end
