@@ -14,19 +14,6 @@ defmodule FuransuliveWeb.Auth.Guardian do
     {:ok, resource}
   end
 
-  def authenticate(email, password) do
-    # HTTP Bearer authorization.
-    with {:ok, user} <- Accounts.get_by_email(email) do
-      case validate_password(password, user) do
-        true ->
-          create_token(user)
-
-        false ->
-          {:error, :unauthorized}
-      end
-    end
-  end
-
   def authenticate_phone(email, password) do
     # HTTP Bearer authorization.
     with {:ok, user} <- Accounts.get_by_email(email) do
