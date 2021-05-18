@@ -5,14 +5,14 @@ defmodule Furansulive.SpacedRepetition.FlashCard do
   alias Furansulive.Directory.Word
 
   schema "flashcards" do
-    field :target_expression, :string
-    field :target_expression_pronunciation, :string
-    field :target_expression_sound_file_path, :string
-    field :meaning, :string
-    field :picture_file_path, :string
-    field :notes, :string
-    has_one :word, Word
-
+    field :target_language, :string
+    field :target_language_pronunciation, :string
+    field :target_language_sound_file_path, :string
+    field :target_language_meaning, :string
+    field :source_language_meaning, :string
+    field :target_language_picture_file_path, :string
+    field :target_language_notes, :string
+    belongs_to(:word, Word)
     timestamps()
   end
 
