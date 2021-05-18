@@ -21,6 +21,10 @@ defmodule FuransuliveWeb.UserView do
     %{data: render_many(users, UserView, "public_user.json")}
   end
 
+  def render("public_show.json", %{user: user}) do
+    %{data: render_one(user, UserView, "public_user.json")}
+  end
+
   def render("public_user.json", %{user: user}) do
     %{
       email: user.email
