@@ -4,17 +4,19 @@ defmodule Furansulive.Directory.Word do
   alias Furansulive.SpacedRepetition.FlashCard
 
   schema "words" do
-    field :description, :string
-    field :name, :string
-    field :tag, :string
-    has_many :flash_card, FlashCard
+    field :unit, :string
+
+    field :type, Ecto.Enum,
+      values: [:noun, :pronoun, :adjective, :adverb, :preposition, :conjunction, :interjection]
+
+    has_many :flashcards, FlashCard
     timestamps()
   end
 
   @doc false
   def changeset(word, attrs) do
     word
-    |> cast(attrs, [:name, :description, :tag])
-    |> validate_required([:name, :description, :tag])
+    |> cast(attrs, [:unit, :type, :meaning])
+    |> validate_required([:unit, :type])
   end
 end

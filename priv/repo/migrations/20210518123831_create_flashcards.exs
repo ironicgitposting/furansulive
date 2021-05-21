@@ -12,7 +12,7 @@ defmodule Furansulive.Repo.Migrations.CreateFlashcards do
       add :target_language_picture_file_path, :string
       add :target_language_notes, :string
       add :flashcard_type, :integer
-
+      add :word_id, references(:words)
       timestamps()
     end
 
