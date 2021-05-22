@@ -10,9 +10,30 @@ defmodule Furansulive.Directory.Word do
     field :definition, :string
     field :example, :string
     field :audio, :string
+    field :frequency, :integer
+    field :main_lexicon, :string
+
+    field :level, Ecto.Enum,
+      values: [
+        :basic,
+        :beginner,
+        :lower_intermediate,
+        :intermediate,
+        :advanced_intermediate,
+        :advanced,
+        :slang
+      ]
 
     field :part_of_speech, Ecto.Enum,
-      values: [:noun, :pronoun, :adjective, :adverb, :preposition, :conjunction, :interjection]
+      values: [
+        :noun,
+        :pronoun,
+        :adjective,
+        :adverb,
+        :preposition,
+        :conjunction,
+        :interjection
+      ]
 
     has_many :flashcards, FlashCard
     timestamps()
@@ -27,14 +48,18 @@ defmodule Furansulive.Directory.Word do
       :context,
       :definition,
       :example,
-      :audio
+      :audio,
+      :frequency,
+      :main_lexicon,
+      :level
     ])
     |> validate_required([
       :word,
       :phonectic,
       :context,
       :definition,
-      :example
+      :example,
+      :level
     ])
   end
 end

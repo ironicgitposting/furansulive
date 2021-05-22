@@ -21,6 +21,17 @@ defmodule Furansulive.Directory.FlashCard do
     field :target_language_picture, :string
     field :target_language_notes, :string
 
+    field :target_language_level, Ecto.Enum,
+      values: [
+        :basic,
+        :beginner,
+        :lower_intermediate,
+        :intermediate,
+        :advanced_intermediate,
+        :advanced,
+        :slang
+      ]
+
     field :flashcard_type, Ecto.Enum,
       values: [
         :grammar,
