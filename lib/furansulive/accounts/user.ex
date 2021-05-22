@@ -1,7 +1,7 @@
 defmodule Furansulive.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Furansulive.SpacedRepetition.FlashCard
+  alias Furansulive.Directory.FlashCard
 
   schema "users" do
     field :email, :string

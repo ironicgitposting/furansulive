@@ -1,4 +1,4 @@
-defmodule Furansulive.SpacedRepetition.FlashCard do
+defmodule Furansulive.Directory.FlashCard do
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -37,6 +37,7 @@ defmodule Furansulive.MixProject do
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
+      {:poison, "~> 3.1"},
       {:phoenix_live_dashboard, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
@@ -45,7 +46,6 @@ defmodule Furansulive.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 2.0"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:poison, "~> 3.1"},
       {:cors_plug, "~> 2.0"}
     ]
   end

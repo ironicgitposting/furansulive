@@ -1,7 +1,7 @@
 defmodule Furansulive.Directory.Word do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Furansulive.SpacedRepetition.FlashCard
+  alias Furansulive.Directory.FlashCard
 
   schema "words" do
     field :unit, :string
