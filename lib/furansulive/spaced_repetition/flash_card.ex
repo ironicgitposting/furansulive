@@ -3,6 +3,7 @@ defmodule Furansulive.SpacedRepetition.FlashCard do
   import Ecto.Changeset
 
   alias Furansulive.Directory.Word
+  alias Furansulive.Accounts.User
 
   schema "flashcards" do
     field :target_language, :string
@@ -14,6 +15,14 @@ defmodule Furansulive.SpacedRepetition.FlashCard do
     field :target_language_notes, :string
     field :flashcard_type, :integer
     belongs_to(:word, Word)
+
+    many_to_many(
+      :users,
+      User,
+      join_through: "user_flashcard",
+      on_replace: :delete
+    )
+
     timestamps()
   end
 

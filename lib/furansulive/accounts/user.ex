@@ -1,12 +1,20 @@
 defmodule Furansulive.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Furansulive.SpacedRepetition.FlashCard
 
   schema "users" do
     field :email, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
     field :admin, :boolean
+
+    many_to_many(
+      :flashcards,
+      FlashCard,
+      join_through: "user_flashcard",
+      on_replace: :delete
+    )
 
     timestamps()
   end
@@ -20,6 +28,8 @@ defmodule Furansulive.Accounts.User do
     |> validate_length(:password, min: 6)
     |> unique_constraint(:email)
     |> put_hashed_password()
+
+    # To do Add assocs https://www.coletiv.com/blog/many-to-many-relationships-with-ecto/
   end
 
   defp put_hashed_password(changeset) do
