@@ -4,9 +4,14 @@ defmodule Furansulive.Directory.Word do
   alias Furansulive.Directory.FlashCard
 
   schema "words" do
-    field :unit, :string
+    field :word, :string
+    field :phonectic, :string
+    field :context, :string
+    field :definition, :string
+    field :example, :string
+    field :audio, :string
 
-    field :type, Ecto.Enum,
+    field :part_of_speech, Ecto.Enum,
       values: [:noun, :pronoun, :adjective, :adverb, :preposition, :conjunction, :interjection]
 
     has_many :flashcards, FlashCard
@@ -16,7 +21,20 @@ defmodule Furansulive.Directory.Word do
   @doc false
   def changeset(word, attrs) do
     word
-    |> cast(attrs, [:unit, :type, :meaning])
-    |> validate_required([:unit, :type])
+    |> cast(attrs, [
+      :word,
+      :phonectic,
+      :context,
+      :definition,
+      :example,
+      :audio
+    ])
+    |> validate_required([
+      :word,
+      :phonectic,
+      :context,
+      :definition,
+      :example
+    ])
   end
 end

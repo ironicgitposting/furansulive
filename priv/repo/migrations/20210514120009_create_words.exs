@@ -3,9 +3,13 @@ defmodule Furansulive.Repo.Migrations.CreateWords do
 
   def change do
     create table(:words) do
-      add :unit, :string
-      add :meaning, :text
-      add :type, :string
+      add :word, :string
+      add :phonectic, :string
+      add :context, :string
+      add :definition, :string
+      add :example, :string
+      add :audio, :string
+      add :part_of_speech, :string
       timestamps()
     end
 
