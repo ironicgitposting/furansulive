@@ -12,5 +12,8 @@ defmodule Furansulive.Repo.Migrations.AddUsersFlashcards do
       add :previous_interval, :integer
       timestamps()
     end
+
+    create(index(:user_flashcard, [:flashcard_id]))
+    create(index(:user_flashcard, [:user_id]))
   end
 end

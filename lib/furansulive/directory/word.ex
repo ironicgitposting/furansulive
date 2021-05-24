@@ -5,12 +5,12 @@ defmodule Furansulive.Directory.Word do
 
   schema "words" do
     field :word, :string
-    field :phonectic, :string
+    field :phonetic, :string
     field :context, :string
     field :definition, :string
     field :example, :string
     field :audio, :string
-    field :frequency, :integer
+    field :rank, :integer
     field :main_lexicon, :string
 
     field :level, Ecto.Enum,
@@ -44,18 +44,18 @@ defmodule Furansulive.Directory.Word do
     word
     |> cast(attrs, [
       :word,
-      :phonectic,
+      :phonetic,
       :context,
       :definition,
       :example,
       :audio,
-      :frequency,
+      :rank,
       :main_lexicon,
       :level
     ])
     |> validate_required([
       :word,
-      :phonectic,
+      :phonetic,
       :context,
       :definition,
       :example,

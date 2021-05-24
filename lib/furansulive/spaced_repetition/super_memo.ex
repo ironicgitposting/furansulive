@@ -1,26 +1,48 @@
 defmodule Furansulive.SpacedRepetition.SuperMemo do
   @moduledoc """
-  Based on super memo formular (# https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
-  1. Apply the memorizing optimization procedures to smallest possible items (flashcards)
-  2. Differentiate between the items on the base of theur different difficulty
-
-  # I(1):=1
-  # I(2):=6
-  # for n>2 I(n):=I(n-1)*EF
-
-  Where:
-  I(n) - inter-repetition interval after the n-th repetition (in days)
-
-  EF - easiness factor reflecting the easiness of memorizing and retaining a given item
-  in memory (later called the E-Factor).
-
-  Formula general form:
-    EF':=f(EF,q)
-
-    Where:
-    EF' - new value of the E-Factor
-    EF - old value of the E-Factor
-    q - quality of the response
-    f - function used in calculating EF'.
+  Based on super memo formula (# https://www.supermemo.com/en/archives1990-2015/english/ol/sm2)
   """
+
+  alias Furansulive.Accounts
+  alias Furansulive.Directory
+  alias Furansulive.Directory.FlashCard
+
+  # user_flashcard_query = from f in FlashCard, select: f.id
+
+  # from u In User,
+  # preload: [user_flashcards: ^user_flashcard_query]
+
+  # Fetch from :users_flashcards
+
+  # Case no result insert new line
+  # Case Res update line
+  # https://github.com/thyagoluciano/sm2/blob/master/lib/sm.dart
+
+  defp get_ease_factor(previous_ease_factor, quality) do
+    previous_ease_factor +
+      (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+  end
+
+  # {:ok, interval, repetitions, ease_factor}
+  # {:error, error}
+  def compute_interval(quality, repetitions, previous_interval, previous_ease_factor) do
+    cond do
+      quality > 3 ->
+        case repetitions do
+          0 ->
+            {:ok, 1, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
+
+          1 ->
+            {:ok, 6, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
+
+          _ ->
+            interval =
+              (previous_interval * previous_ease_factor)
+              |> Decimal.from_float()
+              |> Decimal.round(2)
+
+            {:ok, interval, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
+        end
+    end
+  end
 end
