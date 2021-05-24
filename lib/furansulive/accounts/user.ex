@@ -32,6 +32,13 @@ defmodule Furansulive.Accounts.User do
     # To do Add assocs https://www.coletiv.com/blog/many-to-many-relationships-with-ecto/
   end
 
+  def changeset_update_flashcards(user, flashcards) do
+    user
+    |> cast(%{}, [:email, :password])
+    # associate flashcards to the user
+    |> put_assoc(:flashcards, flashcards)
+  end
+
   defp put_hashed_password(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->

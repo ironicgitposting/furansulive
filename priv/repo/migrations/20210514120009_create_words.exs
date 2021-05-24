@@ -10,6 +10,9 @@ defmodule Furansulive.Repo.Migrations.CreateWords do
       add :example, :string
       add :audio, :string
       add :part_of_speech, :string
+      add :frequency, :integer
+      add :main_lexicon, :string
+      add :level, :string
       timestamps()
     end
 
