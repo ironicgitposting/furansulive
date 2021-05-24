@@ -18,31 +18,46 @@ defmodule Furansulive.SpacedRepetition.SuperMemo do
   # Case Res update line
   # https://github.com/thyagoluciano/sm2/blob/master/lib/sm.dart
 
+  # Least possible ease factor possible is 1.3
   defp get_ease_factor(previous_ease_factor, quality) do
-    previous_ease_factor +
-      (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+    new_ease_factor =
+      previous_ease_factor +
+        (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+
+    cond do
+      new_ease_factor > 1.3 ->
+        new_ease_factor
+
+      true ->
+        1.3
+    end
   end
 
+  # User got a wrong answer
+  def compute_interval(quality, repetitions, previous_interval, previous_ease_factor)
+      when is_integer(quality) and quality < 3 do
+    {:ok, 0, 1, previous_ease_factor}
+  end
+
+  # User got a good answer
   # {:ok, interval, repetitions, ease_factor}
   # {:error, error}
-  def compute_interval(quality, repetitions, previous_interval, previous_ease_factor) do
-    cond do
-      quality > 3 ->
-        case repetitions do
-          0 ->
-            {:ok, 1, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
+  def compute_interval(quality, repetitions, previous_interval, previous_ease_factor)
+      when is_integer(quality) and quality > 3 do
+    case repetitions do
+      0 ->
+        {:ok, 1, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
 
-          1 ->
-            {:ok, 6, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
+      1 ->
+        {:ok, 6, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
 
-          _ ->
-            interval =
-              (previous_interval * previous_ease_factor)
-              |> Decimal.from_float()
-              |> Decimal.round(2)
+      _ ->
+        interval =
+          (previous_interval * previous_ease_factor)
+          |> Decimal.from_float()
+          |> Decimal.round(2)
 
-            {:ok, interval, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
-        end
+        {:ok, interval, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
     end
   end
 end
