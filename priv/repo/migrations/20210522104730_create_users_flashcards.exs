@@ -1,4 +1,4 @@
-defmodule Furansulive.Repo.Migrations.AddUsersFlashcards do
+defmodule Furansulive.Repo.Migrations.CreateUsersFlashcards do
   use Ecto.Migration
 
   def change do

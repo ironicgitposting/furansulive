@@ -2,6 +2,7 @@ defmodule Furansulive.Directory.Word do
   use Ecto.Schema
   import Ecto.Changeset
   alias Furansulive.Directory.FlashCard
+  alias Furansulive.Directory.WordFeature
 
   schema "words" do
     field :word, :string
@@ -26,15 +27,28 @@ defmodule Furansulive.Directory.Word do
 
     field :part_of_speech, Ecto.Enum,
       values: [
-        :noun,
-        :pronoun,
         :adjective,
         :adverb,
-        :preposition,
         :conjunction,
-        :interjection
+        :determiner,
+        :interjection,
+        :noun,
+        :preposition,
+        :pronoun,
+        :verb
       ]
 
+    field :feature, Ecto.Enum,
+      values: [
+        :feminine,
+        :invariable,
+        :masculine,
+        :plural,
+        :no_distinct_feminine,
+        :no_distinct_plural
+      ]
+
+    has_many :word_features, WordFeature
     has_many :flashcards, FlashCard
     timestamps()
   end
