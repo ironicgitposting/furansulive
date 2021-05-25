@@ -43,7 +43,7 @@ defmodule Furansulive.SpacedRepetition.SuperMemo do
   # {:ok, interval, repetitions, ease_factor}
   # {:error, error}
   def compute_interval(quality, repetitions, previous_interval, previous_ease_factor)
-      when is_integer(quality) and quality > 3 do
+      when is_integer(quality) and quality >= 3 do
     case repetitions do
       0 ->
         {:ok, 1, repetitions + 1, get_ease_factor(previous_ease_factor, quality)}
